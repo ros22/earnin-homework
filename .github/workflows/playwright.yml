@@ -39,7 +39,7 @@ jobs:
 
     # Run Playwright tests
     - name: Run Playwright tests
-      run: npx playwright test --project=chromium --retries=2
+      run: npx playwright test --project=chromium
 
     # Display Playwright logs (optional)
     - name: Display Playwright logs
