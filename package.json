@@ -1,0 +1,21 @@
+{
+  "name": "earnin-homework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test --retries=2",
+    "chromuim": "npx playwright test --project=chromium --headed --retries=2",
+    "safari": "npx playwright test --project='Mobile Safari' --headed --retries=2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.1"
+  },
+  "dependencies": {
+    "pixelmatch": "^6.0.0"
+  }
+}
