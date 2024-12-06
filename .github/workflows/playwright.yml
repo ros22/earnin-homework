@@ -39,7 +39,7 @@ jobs:
 
     # Run Playwright tests
     - name: Run Playwright tests
-      run: npx playwright test -u
+      run: npx playwright test --update-snapshot
 
     # Display Playwright logs (optional)
     - name: Display Playwright logs
