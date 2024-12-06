@@ -25,7 +25,8 @@ import path from 'path';
     // First run: Capture baseline snapshot
     test('capture baseline snapshot financial calc', async ({ page }) => {
       // Capture screenshot of the current state and store as a baseline
-      await expect(page).toHaveScreenshot('budget-calc.png');
+      const snapshotPath = path.join(__dirname, 'tests', 'snapshots', 'budget-calc-chromium-linux.png');
+      await expect(page).toHaveScreenshot({ path: snapshotPath });
     });
   
     // Subsequent runs: Compare future snapshots to the baseline
