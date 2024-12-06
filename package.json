@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --retries=2",
+    "test": "npx playwright test -u",
     "chromuim": "npx playwright test --project=chromium --headed --retries=2",
-    "safari": "npx playwright test --project='Mobile Safari' --headed --retries=2"
+    "safari": "npx playwright test --project='Mobile Safari' -u"
   },
   "keywords": [],
   "author": "",
