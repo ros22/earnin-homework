@@ -25,8 +25,7 @@ import path from 'path';
     // First run: Capture baseline snapshot
     test('capture baseline snapshot financial calc', async ({ page }) => {
       // Capture screenshot of the current state and store as a baseline
-      const snapshotPath = path.join(__dirname, 'tests', 'snapshots', 'budget-calc-chromium-linux.png');
-      await expect(page).toHaveScreenshot({ path: snapshotPath });
+      await expect(page).toHaveScreenshot();
     });
   
     // Subsequent runs: Compare future snapshots to the baseline
@@ -36,7 +35,7 @@ import path from 'path';
     //   await page.click('button#onetrust-accept-btn-handler');
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
-      await expect(page).toHaveScreenshot('budget-calc.png');
+      await expect(page).toHaveScreenshot();
 
     });
 
@@ -54,7 +53,7 @@ import path from 'path';
         await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
     
         // Compare the current page with the baseline snapshot
-        await expect(page).toHaveScreenshot('budget-calc.png');
+        await expect(page).toHaveScreenshot();
         await page.close();
       });
     
