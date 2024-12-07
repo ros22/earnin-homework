@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test -u",
-    "chromium": "npx playwright test --project=chromium",
+    "chromium": "npx playwright test --project=chromium --headed",
     "safari": "npx playwright test --project='Mobile Safari'"
   },
   "keywords": [],

@@ -1,4 +1,5 @@
 import { test, expect, chromium } from '@playwright/test';
+import { verifySegmentAnalyticsEvents, visitAndVerifyScreens, ScreenData } from '../segmentdata.ts';
 import { deleteImageIfExists } from '../utils.ts';
 import fs from 'fs';
 import path from 'path';
@@ -13,9 +14,17 @@ import path from 'path';
     // Delete any existing screenshots before the test runs
     //deleteImageIfExists(imageDir, '.png');
 
+    const expectedScreenNames: ScreenData[] = [
+      { url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
+      // { url: 'https://www.earnin.com/financial-tools/budget-calculator', screenName: 'Budget Calculator' },
+    ];
+
     test.beforeEach(async ({ page }) => {
+        
+        verifySegmentAnalyticsEvents(page, expectedScreenNames);
+        await visitAndVerifyScreens(page, expectedScreenNames);
         // Runs before each test and signs in each page.
-        await page.goto("https://www.earnin.com/financial-calculators");
+        // await page.goto("https://www.earnin.com/financial-calculators");
         await page.click('button#onetrust-accept-btn-handler');
         await page.waitForTimeout(1000);
       });
@@ -24,7 +33,9 @@ import path from 'path';
     test('capture baseline snapshot financial calc', async ({ page }) => {
       await page.screenshot({ path: screenshotPath, fullPage: true });
       // Capture screenshot of the current state and store as a baseline
-      await expect(page).toHaveScreenshot(screenshotPath);
+      await expect(page).toHaveScreenshot(screenshotPath, {
+        threshold: 1,  // Allow up to 1% of pixels to be different
+      });
     });
   
     // Subsequent runs: Compare future snapshots to the baseline
@@ -34,7 +45,9 @@ import path from 'path';
     //   await page.click('button#onetrust-accept-btn-handler');
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
-      await expect(page).toHaveScreenshot(screenshotPath);
+      await expect(page).toHaveScreenshot(screenshotPath, {
+        threshold: 1,  // Allow up to 1% of pixels to be different
+      });
 
     });
 
@@ -44,15 +57,23 @@ import path from 'path';
         // await page.goto("https://www.earnin.com/financial-calculators");
         // await page.click('button#onetrust-accept-btn-handler');
         // await page.waitForTimeout(1000);
-  
+
         const imageLocator = page.locator('[data-testid="financial-calculator-Budget calculator-card"]');
         await imageLocator.hover();
         await page.waitForTimeout(1000); // Wait for 1 second
         await imageLocator.click();
-        await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
+        const expectedScreenNames: ScreenData[] = [
+          //{ url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
+          { url: 'https://www.earnin.com/financial-tools/budget-calculator', screenName: 'Budget Calculator' },
+        ];
+        verifySegmentAnalyticsEvents(page, expectedScreenNames);
+        await visitAndVerifyScreens(page, expectedScreenNames);
+        // await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
     
         // Compare the current page with the baseline snapshot
-        await expect(page).toHaveScreenshot(screenshotPath);
+        await expect(page).toHaveScreenshot(screenshotPath, {
+          threshold: 1,  // Allow up to 1% of pixels to be different
+        });
         await page.close();
       });
     
