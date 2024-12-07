@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx playwright test -u",
     "chromuim": "npx playwright test --project=chromium --headed --retries=2",
-    "safari": "npx playwright test --project='Mobile Safari' -u"
+    "safari": "npx playwright test --project='Mobile Safari'"
   },
   "keywords": [],
   "author": "",

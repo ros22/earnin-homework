@@ -1,31 +1,30 @@
 import { test, expect, chromium } from '@playwright/test';
+import { deleteImageIfExists } from '../utils.ts';
 import fs from 'fs';
 import path from 'path';
 
   
   test.describe('Visual Regression Testing Flow', () => {
+    const imageDir = path.join(__dirname, '/snapshots');
+    const imageFileName = 'budget-calc.png';
+    
+    // Combine directory and filename into a full path
+    const screenshotPath = path.join(imageDir, imageFileName);
 
     test.beforeEach(async ({ page }) => {
-        // // Function to delete the image file if it exists
-        // function deleteImageIfExists(imagePath: string): void {
-        //     if (fs.existsSync(imagePath)) {
-        //     fs.unlinkSync(imagePath);
-        //     console.log(`Deleted image at: ${imagePath}`);
-        //     }
-        // }
-        // const imagePath = path.join(__dirname, './tests/budgetcalc.test.ts-snapshots/*.png');
-        // deleteImageIfExists(imagePath); // Delete image before tests run
-        
+        // Delete any existing screenshots before the test runs
+        deleteImageIfExists(imageDir, '.png');
         // Runs before each test and signs in each page.
         await page.goto("https://www.earnin.com/financial-calculators");
         await page.click('button#onetrust-accept-btn-handler');
         await page.waitForTimeout(1000);
+        await page.screenshot({ path: screenshotPath, fullPage: true });
       });
 
     // First run: Capture baseline snapshot
     test('capture baseline snapshot financial calc', async ({ page }) => {
       // Capture screenshot of the current state and store as a baseline
-      await expect(page).toHaveScreenshot();
+      await expect(page).toHaveScreenshot(screenshotPath);
     });
   
     // Subsequent runs: Compare future snapshots to the baseline
@@ -35,7 +34,7 @@ import path from 'path';
     //   await page.click('button#onetrust-accept-btn-handler');
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
-      await expect(page).toHaveScreenshot();
+      await expect(page).toHaveScreenshot(screenshotPath);
 
     });
 
@@ -53,7 +52,7 @@ import path from 'path';
         await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
     
         // Compare the current page with the baseline snapshot
-        await expect(page).toHaveScreenshot();
+        await expect(page).toHaveScreenshot(screenshotPath);
         await page.close();
       });
     
