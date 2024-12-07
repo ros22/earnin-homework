@@ -10,15 +10,15 @@ import path from 'path';
     
     // Combine directory and filename into a full path
     const screenshotPath = path.join(imageDir, imageFileName);
+    // Delete any existing screenshots before the test runs
+    //deleteImageIfExists(imageDir, '.png');
 
     test.beforeEach(async ({ page }) => {
-        // Delete any existing screenshots before the test runs
-        deleteImageIfExists(imageDir, '.png');
         // Runs before each test and signs in each page.
         await page.goto("https://www.earnin.com/financial-calculators");
         await page.click('button#onetrust-accept-btn-handler');
         await page.waitForTimeout(1000);
-        await page.screenshot({ path: screenshotPath, fullPage: true });
+        // await page.screenshot({ path: screenshotPath, fullPage: true });
       });
 
     // First run: Capture baseline snapshot
