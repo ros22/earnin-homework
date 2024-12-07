@@ -18,11 +18,11 @@ import path from 'path';
         await page.goto("https://www.earnin.com/financial-calculators");
         await page.click('button#onetrust-accept-btn-handler');
         await page.waitForTimeout(1000);
-        // await page.screenshot({ path: screenshotPath, fullPage: true });
       });
 
     // First run: Capture baseline snapshot
     test('capture baseline snapshot financial calc', async ({ page }) => {
+      await page.screenshot({ path: screenshotPath, fullPage: true });
       // Capture screenshot of the current state and store as a baseline
       await expect(page).toHaveScreenshot(screenshotPath);
     });
