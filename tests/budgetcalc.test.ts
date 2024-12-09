@@ -1,6 +1,6 @@
 import { test, expect, chromium } from '@playwright/test';
-import { verifySegmentAnalyticsEvents, visitAndVerifyScreens, ScreenData } from '../segmentdata.ts';
-import { deleteImageIfExists } from '../utils.ts';
+import { verifySegmentAnalyticsEvents, visitAndVerifyScreens, ScreenData } from '../utils/segmentdata.ts';
+import { deleteImageIfExists } from '../utils/utils.ts';
 import fs from 'fs';
 import path from 'path';
 
@@ -15,7 +15,7 @@ import path from 'path';
       fs.mkdirSync(imageDir, { recursive: true });
     }
     // Delete any existing screenshots before the test runs
-    //deleteImageIfExists(imageDir, '.png');
+    deleteImageIfExists(imageDir, '.png');
 
     const expectedScreenNames: ScreenData[] = [
       { url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
