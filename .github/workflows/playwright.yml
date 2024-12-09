@@ -4,7 +4,7 @@ name: Playwright Tests
 on:
   push:
     branches:
-      - main        # Change to your deployment branch if different (e.g. 'production')
+      - master        
   # Alternatively, you can trigger on `deployment` events after deploying.
   deployment_status:
     types: [success]
