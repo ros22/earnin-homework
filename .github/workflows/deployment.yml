@@ -5,7 +5,7 @@ name: Deploy Application
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to the main branch (can be any branch you deploy from)
+      - master  # Trigger deployment on push to the main branch (can be any branch you deploy from)
 
 jobs:
   deploy:
