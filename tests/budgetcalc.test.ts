@@ -1,6 +1,5 @@
-import { test, expect, chromium } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { verifySegmentAnalyticsEvents, visitAndVerifyScreens, ScreenData } from '../utils/segmentdata.ts';
-import { deleteImageIfExists } from '../utils/utils.ts';
 import fs from 'fs';
 import path from 'path';
 
@@ -14,29 +13,23 @@ import path from 'path';
       console.log(`Creating snapshot directory: ${imageDir}`);
       fs.mkdirSync(imageDir, { recursive: true });
     }
-    // Delete any existing screenshots before the test runs
-    deleteImageIfExists(imageDir, '.png');
 
     const expectedScreenNames: ScreenData[] = [
       { url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
-      // { url: 'https://www.earnin.com/financial-tools/budget-calculator', screenName: 'Budget Calculator' },
     ];
 
     test.beforeEach(async ({ page }) => {
-        
+        //segmentsanalytics
         verifySegmentAnalyticsEvents(page, expectedScreenNames);
         await visitAndVerifyScreens(page, expectedScreenNames);
         // Runs before each test and signs in each page.
-        // await page.goto("https://www.earnin.com/financial-calculators");
         await page.click('button#onetrust-accept-btn-handler');
         await page.waitForTimeout(1000);
       });
 
-    //First run: Capture baseline snapshot
+    //First run: Capture baseline snapshot always fail
     test('capture baseline snapshot financial calc', async ({ page }) => {
       test.fail();
-      //await page.screenshot({ path: screenshotPath, fullPage: true });
-      // Capture screenshot of the current state and store as a baseline
       await expect(page).toHaveScreenshot(screenshotPath, {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
@@ -44,42 +37,24 @@ import path from 'path';
   
     // Subsequent runs: Compare future snapshots to the baseline
     test('should match the baseline snapshot financial calc', async ({ page }) => {
-    //   // Navigate to the page
-    //   await page.goto("https://www.earnin.com/financial-calculators");
-    //   await page.click('button#onetrust-accept-btn-handler');
-    //   await page.waitForTimeout(1000);
-      // Compare the current page with the baseline snapshot
-      // await page.screenshot({ path: screenshotPath, fullPage: true });
-      // if (fs.existsSync(screenshotPath)) {
-      //   console.log(`Screenshot saved successfully at: ${screenshotPath}`);
-      // } else {
-      //   console.log('Screenshot file not created!');
-      // }
       await expect(page).toHaveScreenshot(screenshotPath, {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
 
     });
 
+    //Last test: always fail comparing current page with the baseline snapshot
     test('should failed the baseline snapshot matching', async ({ page }) => {
         test.fail();
-        // Navigate to the page
-        // await page.goto("https://www.earnin.com/financial-calculators");
-        // await page.click('button#onetrust-accept-btn-handler');
-        // await page.waitForTimeout(1000);
-
         const imageLocator = page.locator('[data-testid="financial-calculator-Budget calculator-card"]');
         await imageLocator.hover();
         await page.waitForTimeout(1000); // Wait for 1 second
         await imageLocator.click();
         const expectedScreenNames1: ScreenData[] = [
-          //{ url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
           { url: 'https://www.earnin.com/financial-tools/budget-calculator', screenName: 'Budget Calculator' },
         ];
         verifySegmentAnalyticsEvents(page, expectedScreenNames1);
         await visitAndVerifyScreens(page, expectedScreenNames1);
-        // await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
-    
         // Compare the current page with the baseline snapshot
         await expect(page).toHaveScreenshot(screenshotPath);
         await page.close();
