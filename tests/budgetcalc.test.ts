@@ -9,6 +9,10 @@ import path from 'path';
     const imageDir = path.join(__dirname, '/snapshots');
     const imageFileName = 'budget-calc.png';
     
+    // Create the directory if it doesn't exist
+    if (!fs.existsSync(imageDir)) {
+      fs.mkdirSync(imageDir, { recursive: true });
+    }
     // Combine directory and filename into a full path
     const screenshotPath = path.join(imageDir, imageFileName);
     // Delete any existing screenshots before the test runs
