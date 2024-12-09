@@ -1,8 +1,5 @@
 FROM mcr.microsoft.com/playwright:focal
 
-# Create the directory where snapshots will be stored
-RUN mkdir -p /tests/tests/budgetcalc.test.ts-snapshots/
-
 # copy project (including tests)
 COPY . /tests
 
