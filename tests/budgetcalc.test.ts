@@ -32,14 +32,15 @@ import path from 'path';
         await page.waitForTimeout(1000);
       });
 
-    // First run: Capture baseline snapshot
-    // test('capture baseline snapshot financial calc', async ({ page }) => {
-    //   await page.screenshot({ path: screenshotPath, fullPage: true });
-    //   // Capture screenshot of the current state and store as a baseline
-    //   await expect(page).toHaveScreenshot(screenshotPath, {
-    //     threshold: 1,  // Allow up to 1% of pixels to be different
-    //   });
-    // });
+    //First run: Capture baseline snapshot
+    test('capture baseline snapshot financial calc', async ({ page }) => {
+      test.fail();
+      //await page.screenshot({ path: screenshotPath, fullPage: true });
+      // Capture screenshot of the current state and store as a baseline
+      await expect(page).toHaveScreenshot(screenshotPath, {
+        threshold: 1,  // Allow up to 1% of pixels to be different
+      });
+    });
   
     // Subsequent runs: Compare future snapshots to the baseline
     test('should match the baseline snapshot financial calc', async ({ page }) => {
@@ -54,7 +55,7 @@ import path from 'path';
       // } else {
       //   console.log('Screenshot file not created!');
       // }
-      await expect(page).toHaveScreenshot('budget-calc.png', {
+      await expect(page).toHaveScreenshot(screenshotPath, {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
 
