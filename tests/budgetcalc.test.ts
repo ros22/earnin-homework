@@ -48,13 +48,13 @@ import path from 'path';
     //   await page.click('button#onetrust-accept-btn-handler');
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      if (fs.existsSync(screenshotPath)) {
-        console.log(`Screenshot saved successfully at: ${screenshotPath}`);
-      } else {
-        console.log('Screenshot file not created!');
-      }
-      await expect(page).toHaveScreenshot(screenshotPath, {
+      // await page.screenshot({ path: screenshotPath, fullPage: true });
+      // if (fs.existsSync(screenshotPath)) {
+      //   console.log(`Screenshot saved successfully at: ${screenshotPath}`);
+      // } else {
+      //   console.log('Screenshot file not created!');
+      // }
+      await expect(page).toHaveScreenshot('budget-calc.png', {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
 
