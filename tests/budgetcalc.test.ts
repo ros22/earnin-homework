@@ -6,7 +6,7 @@ import path from 'path';
 
   
   test.describe('Visual Regression Testing Flow', () => {
-    const imageDir = path.join(__dirname, '/snapshots');
+    const imageDir = path.join(__dirname, 'snapshots');
     const imageFileName = 'budget-calc.png';
     const screenshotPath = path.join(imageDir, imageFileName);
     // Create the directory if it doesn't exist
@@ -49,6 +49,11 @@ import path from 'path';
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
       await page.screenshot({ path: screenshotPath, fullPage: true });
+      if (fs.existsSync(screenshotPath)) {
+        console.log(`Screenshot saved successfully at: ${screenshotPath}`);
+      } else {
+        console.log('Screenshot file not created!');
+      }
       await expect(page).toHaveScreenshot(screenshotPath, {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
