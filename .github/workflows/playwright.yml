@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - master        
-  # Alternatively, you can trigger on `deployment` events after deploying.
-  deployment_status:
-    types: [success]
+
+  workflow_run:
+    workflows: ["Deploy Application"]  # The workflow name from the first file
+    types:
+      - completed  # Trigger when the deployment workflow completes
 
 jobs:
   # Job 1: Build and run Playwright tests
