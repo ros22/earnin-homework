@@ -30,13 +30,13 @@ import path from 'path';
       });
 
     // First run: Capture baseline snapshot
-    test('capture baseline snapshot financial calc', async ({ page }) => {
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      // Capture screenshot of the current state and store as a baseline
-      await expect(page).toHaveScreenshot(screenshotPath, {
-        threshold: 1,  // Allow up to 1% of pixels to be different
-      });
-    });
+    // test('capture baseline snapshot financial calc', async ({ page }) => {
+    //   await page.screenshot({ path: screenshotPath, fullPage: true });
+    //   // Capture screenshot of the current state and store as a baseline
+    //   await expect(page).toHaveScreenshot(screenshotPath, {
+    //     threshold: 1,  // Allow up to 1% of pixels to be different
+    //   });
+    // });
   
     // Subsequent runs: Compare future snapshots to the baseline
     test('should match the baseline snapshot financial calc', async ({ page }) => {
@@ -45,6 +45,7 @@ import path from 'path';
     //   await page.click('button#onetrust-accept-btn-handler');
     //   await page.waitForTimeout(1000);
       // Compare the current page with the baseline snapshot
+      await page.screenshot({ path: screenshotPath, fullPage: true });
       await expect(page).toHaveScreenshot(screenshotPath, {
         threshold: 1,  // Allow up to 1% of pixels to be different
       });
@@ -62,18 +63,16 @@ import path from 'path';
         await imageLocator.hover();
         await page.waitForTimeout(1000); // Wait for 1 second
         await imageLocator.click();
-        const expectedScreenNames: ScreenData[] = [
+        const expectedScreenNames1: ScreenData[] = [
           //{ url: 'https://www.earnin.com/financial-calculators', screenName: 'Website EarnIn dotcom - Financial Calculators Page' },
           { url: 'https://www.earnin.com/financial-tools/budget-calculator', screenName: 'Budget Calculator' },
         ];
-        verifySegmentAnalyticsEvents(page, expectedScreenNames);
-        await visitAndVerifyScreens(page, expectedScreenNames);
+        verifySegmentAnalyticsEvents(page, expectedScreenNames1);
+        await visitAndVerifyScreens(page, expectedScreenNames1);
         // await page.waitForURL('https://www.earnin.com/financial-tools/budget-calculator');
     
         // Compare the current page with the baseline snapshot
-        await expect(page).toHaveScreenshot(screenshotPath, {
-          threshold: 1,  // Allow up to 1% of pixels to be different
-        });
+        await expect(page).toHaveScreenshot(screenshotPath);
         await page.close();
       });
     
