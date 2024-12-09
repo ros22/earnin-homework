@@ -8,13 +8,12 @@ import path from 'path';
   test.describe('Visual Regression Testing Flow', () => {
     const imageDir = path.join(__dirname, '/snapshots');
     const imageFileName = 'budget-calc.png';
-    
+    const screenshotPath = path.join(imageDir, imageFileName);
     // Create the directory if it doesn't exist
     if (!fs.existsSync(imageDir)) {
+      console.log(`Creating snapshot directory: ${imageDir}`);
       fs.mkdirSync(imageDir, { recursive: true });
     }
-    // Combine directory and filename into a full path
-    const screenshotPath = path.join(imageDir, imageFileName);
     // Delete any existing screenshots before the test runs
     //deleteImageIfExists(imageDir, '.png');
 
